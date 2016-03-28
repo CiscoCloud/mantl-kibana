@@ -1,6 +1,6 @@
 # Mantl Kibana
 
-[![Build Status](http://drone04.shipped-cisco.com/api/badges/CiscoCloud/mantl-kibana/status.svg)](http://drone04.shipped-cisco.com/CiscoCloud/mantl-kibana)
+[![Build Status](https://travis-ci.org/CiscoCloud/mantl-kibana.svg?branch=master)](https://travis-ci.org/CiscoCloud/mantl-kibana)
 
 Kibana Docker image used by the
 [ELK addon](http://docs.mantl.io/en/latest/components/elk.html) for

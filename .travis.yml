@@ -1,0 +1,17 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - make build
+
+deploy:
+  - provider: script
+    script: scripts/publish.sh
+    on:
+      branch: master
+  - provider: script
+    script: scripts/publish.sh
+    on:
+      tags: true
