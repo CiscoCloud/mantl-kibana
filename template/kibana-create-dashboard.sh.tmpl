@@ -15,6 +15,18 @@ exit 0
 elasticsearch_url="http://{{.Address}}:{{.Port}}"
 {{- end}}{{end}}{{end}}
 
+kibana_status() {
+    curl --silent --insecure --retry 2 --connect-timeout 5 --max-time 5 $kibana_url/api/status | jq -r .status.overall.state
+}
+
+# wait until kibana is healthy
+ATTEMPT=0
+until [ $(kibana_status) == "green" ] || [ $ATTEMPT -eq 6 ]; do
+    echo "waiting for Kibana to become healthy..."
+    echo "attempt: $(( ATTEMPT++ ))"
+    sleep 10
+done
+
 # create logstash index pattern
 curl -s -XPOST -H 'kbn-version: {{env "KIBANA_IMAGE_TAG"}}' $kibana_url/elasticsearch/.kibana/index-pattern/logstash-*?op_type=create -d '{"title":"logstash-*","timeFieldName":"@timestamp"}'
 

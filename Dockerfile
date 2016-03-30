@@ -8,7 +8,7 @@ RUN echo "\nserver.basePath: /kibana" >> /opt/kibana/config/kibana.yml
 RUN timeout 120 /opt/kibana/node/bin/node /opt/kibana/src/cli/ || true
 
 RUN apt-get update && apt-get install -y \
-    unzip curl \
+    unzip curl jq \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 ADD https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip /
