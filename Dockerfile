@@ -4,7 +4,7 @@ ENV CONSUL_TEMPLATE_VERSION=0.14.0
 
 # optimize bundle assets in advance for running under /kibana
 # see https://github.com/elastic/kibana/issues/6057
-RUN echo "\nserver.basePath: /kibana" >> /opt/kibana/config/kibana.yml
+RUN echo "\nserver.basePath: /kibana" > /opt/kibana/config/kibana.yml
 RUN timeout 120 /opt/kibana/node/bin/node /opt/kibana/src/cli/ || true
 
 RUN apt-get update && apt-get install -y \
