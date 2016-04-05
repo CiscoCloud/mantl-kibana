@@ -10,7 +10,7 @@ exit 0
 {{- end}}
 
 # set elasticsearch_url
-{{$es := service (env "ELASTICSEARCH_SERVICE")}}{{with $es -}}
+{{$es := service (env "ELASTICSEARCH_SERVICE" "any")}}{{with $es -}}
 {{range $idx, $service := $es}}{{if eq $idx 0}}
 elasticsearch_url="http://{{.Address}}:{{.Port}}"
 {{- end}}{{end}}{{end}}
