@@ -13,6 +13,7 @@ CONSUL_MINWAIT=${CONSUL_MINWAIT:-2s}
 CONSUL_MAXWAIT=${CONSUL_MAXWAIT:-10s}
 CONSUL_LOGLEVEL=${CONSUL_LOGLEVEL:-warn}
 CONSUL_SSL_VERIFY=${CONSUL_SSL_VERIFY:-true}
+KIBANA_LOGSTASH_CONFIG=${KIBANA_LOGSTASH_CONFIG:-false}
 
 [[ -n "${CONSUL_CONNECT}" ]] && ctargs="${ctargs} -consul ${CONSUL_CONNECT}"
 [[ -n "${CONSUL_SSL}" ]] && ctargs="${ctargs} -ssl"
@@ -50,11 +51,13 @@ fi
 # show config
 cat /opt/kibana/config/kibana.yml
 
-# run consul-template in the background to create index pattern + dashboard
-${CONSUL_TEMPLATE} -config /consul-template/config.d/kibana-dashboard.cfg \
-                   -log-level ${CONSUL_LOGLEVEL} \
-                   -wait ${CONSUL_MINWAIT}:${CONSUL_MAXWAIT} \
-                   ${ctargs} &
+if [[ $KIBANA_LOGSTASH_CONFIG == "true" ]]; then
+    # run consul-template in the background to create index pattern + dashboard
+    ${CONSUL_TEMPLATE} -config /consul-template/config.d/kibana-dashboard.cfg \
+                       -log-level ${CONSUL_LOGLEVEL} \
+                       -wait ${CONSUL_MINWAIT}:${CONSUL_MAXWAIT} \
+                       ${ctargs} &
+fi
 
 # run kibana
 exec kibana ${vars}
