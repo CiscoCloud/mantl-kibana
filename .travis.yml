@@ -6,6 +6,9 @@ services:
 script:
   - make build
 
+before_deploy:
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+
 deploy:
   - provider: script
     script: scripts/publish.sh
